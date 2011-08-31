@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Export-Package: com.gfactor.export.classes;version="1.0.0";uses:="org.apache.wicket.markup.html.panel,org.springframework.security.core.userdetails",
+ com.gfactor.export.iface;version="1.0.0";uses:="org.apache.wicket.request.target.coding,org.apache.wicket.util.lang,org.springframework.security.core.userdetails"
+Unversioned-Imports: *
+Built-By: momo
+Tool: Bnd-1.43.0
+Bundle-Name: Spring OSGi Bundle
+Created-By: Apache Maven Bundle Plugin
+Bundle-Version: 1.0.0
+Build-Jdk: 1.6.0_26
+Bnd-LastModified: 1312524270296
+Bundle-ManifestVersion: 2
+Import-Package: org.apache.wicket.markup.html.panel,
+ org.apache.wicket.request.target.coding,
+ org.apache.wicket.util.lang,
+ org.springframework.security.core,
+ org.springframework.security.core.authority,
+ org.springframework.security.core.userdetails
+Bundle-SymbolicName: plugin-webexport-iface
+
