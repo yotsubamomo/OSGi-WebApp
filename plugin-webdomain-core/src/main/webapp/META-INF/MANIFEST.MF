@@ -31,7 +31,7 @@ Export-Package: com.gfactor.web.wicket.context;version="1.0.0";
    org.apache.wicket.markup.html,
    org.apache.wicket.markup.html.form",
  com.gfactor.web.wicket.service;version="1.0.0";
-  uses:="com.gfactor.export.iface,
+  uses:="com.gfactor.osgi.api.export.iface,
    org.apache.wicket.protocol.http,
    org.apache.wicket.request.target.coding,
    org.apache.wicket.util.lang,
@@ -47,8 +47,9 @@ Import-Bundle: com.springsource.org.apache.taglibs.standard;version="[1.1.2,1.3)
  org.eclipse.virgo.web.dm
 Bundle-Version: 1.0.0
 Bundle-ManifestVersion: 2
-Import-Package: com.gfactor.export.classes, 
- com.gfactor.export.iface,
+Import-Package: com.gfactor.osgi.api.export.classes,
+ com.gfactor.osgi.api.export.iface,
+ com.gfactor.osgi.api.export.util,
  org.apache.commons.logging,
  org.apache.wicket,
  org.apache.wicket.application,
@@ -96,6 +97,7 @@ Import-Package: com.gfactor.export.classes,
  org.springframework.util,
  org.springframework.web.servlet.mvc.annotation,
  org.springframework.web.context,
+ org.slf4j,
  javax.inject
 Bundle-SymbolicName: plugin-webdomain-core
 

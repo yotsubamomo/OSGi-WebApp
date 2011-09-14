@@ -29,21 +29,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.aspects</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.instrument</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 			<version>3.0.5.RELEASE</version>
@@ -159,11 +144,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.junit</groupId>
-			<artifactId>com.springsource.org.junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>com.springsource.org.apache.commons.dbcp</artifactId>
 			<scope>test</scope>
@@ -202,21 +182,14 @@
 		</dependency>
 		<dependency>
 			<groupId>momo-plugin-web</groupId>
-			<artifactId>plugin-webexport-iface</artifactId>
+			<artifactId>plugin-webdomain-api</artifactId>
 			<version>1.0.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>momo-plugin-web</groupId>
-			<artifactId>plugin-webdomain-service-pageinfo</artifactId>
-			<version>1.0.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>momo-plugin-web</groupId>
-			<artifactId>plugin-webdomain-jpa-pageinfo</artifactId>
+			<artifactId>plugin-webdomain-register.page-servicetracker</artifactId>
 			<version>1.0.0</version>
 			<type>jar</type>
 			<scope>compile</scope>

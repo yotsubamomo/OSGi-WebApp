@@ -10,7 +10,6 @@ public class ExtensionPointContainer extends MarkupContainer {
 
 	public ExtensionPointContainer(String id) {			
 		super(id);
-		System.out.println("ExtensionPointContainer start");
 	}
 
 	/**

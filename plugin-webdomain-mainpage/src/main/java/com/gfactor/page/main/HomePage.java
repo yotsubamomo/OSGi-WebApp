@@ -3,6 +3,8 @@
  */
 package com.gfactor.page.main;
 
+import java.util.HashMap;
+
 import javax.inject.Inject;
 
 import org.apache.wicket.markup.html.WebPage;
@@ -13,8 +15,11 @@ import org.odlabs.wiquery.core.events.MouseEvent;
 import org.odlabs.wiquery.core.events.WiQueryEventBehavior;
 import org.odlabs.wiquery.core.javascript.JsScope;
 import org.odlabs.wiquery.ui.dialog.Dialog;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.gfactor.locate.IPageClassLocateService;
+import com.gfactor.osgi.api.export.iface.IGetOutPageInfoService;
 
 
 /**
@@ -22,22 +27,35 @@ import com.gfactor.locate.IPageClassLocateService;
  *
  */ 
 public class HomePage extends WebPage {
-	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());	
+
 	@Inject
 	private IPageClassLocateService pageClassLocateService;
 	
+	@Inject
+	private IGetOutPageInfoService getMainPagetOutService;
 
 
 	public HomePage() {		
 		super();
 //		this.getApplication().addComponentInstantiationListener
 		
-		System.out.println("start HomePage(),....");
-	
-		System.out.println("classloader = "+ this.getClass().getClassLoader());
-		System.out.println("service ... = " +pageClassLocateService);
-		Class<?> pageClass = pageClassLocateService.getPageClass("plugin-webdomain-page-html", "1.0.0", "imagePage1");
-		System.out.println("HomePage pageClass = "+ pageClass);
+		logger.info("start HomePage(),....");	
+		logger.info("classloader = "+ this.getClass().getClassLoader());
+		logger.info("IPageClassLocateService ... = " +pageClassLocateService);
+		logger.info("IGetOutPageInfoService ... = " +getMainPagetOutService);
+		logger.info("classname getName =" +this.getClass().getName());
+		logger.info("classname toString =" +this.getClass().toString());
+		
+		HashMap<String,String> map = getMainPagetOutService.getOutPageInfoMap(this.getClass().getName(), "homeout1");
+		logger.info("map = "+ map);
+		
+		
+		Class<?> pageClass = pageClassLocateService.getPageClass(map.get("bundleSymbolicName"),map.get("version"),map.get("entry_point"));
+		logger.info("HomePage pageClass = "+ pageClass);
+//		Class<?> pageClass = pageClassLocateService.getPageClass("plugin-webdomain-page-html", "1.0.0", "imagePage1");
+		
+		
         final Dialog dialog = new Dialog("dialog");
         add(dialog); 
         

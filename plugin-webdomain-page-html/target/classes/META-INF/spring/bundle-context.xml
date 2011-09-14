@@ -15,11 +15,12 @@
        for integration testing outside of an OSGi environment -->
        
        <context:annotation-config />
-       
-       <bean id="bundleActivator" class="com.gfactor.page.html.BundleActivator"
-        init-method="start" destroy-method="stop" >
+       <!-- 
+       <bean id="bundleActivator" class="com.gfactor.page.html.BundleActivator"init-method="start" destroy-method="stop" >
         <property name="registerWicketPageBndIdentify" ref="iRegisterWicketPageBndIdentify"></property>
         </bean>
-        
+         -->
+         
+        <bean id="pageRegisterEntryPoint" class="com.gfactor.page.html.internal.reg.PageRegisterEntryPoint"/>
         
 </beans>

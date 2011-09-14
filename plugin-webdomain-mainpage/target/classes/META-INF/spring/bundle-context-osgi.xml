@@ -15,5 +15,6 @@
         <osgi:reference id="iwicketPageService" interface="com.gfactor.web.wicket.iface.IWicketExtensionService"/>
          -->
          <osgi:reference id="pageClassLocateService" interface="com.gfactor.locate.IPageClassLocateService"></osgi:reference>
-        <osgi:service ref="mainPageService" interface="com.gfactor.export.iface.IGetMainPageClassService"></osgi:service>
+         <osgi:service ref="mainPageService" interface="com.gfactor.osgi.api.export.iface.IGetMainPageClassService"></osgi:service>
+         <osgi:service ref="getMainPagetOutService" interface="com.gfactor.osgi.api.export.iface.IGetOutPageInfoService"></osgi:service>
 </beans> 

@@ -10,8 +10,11 @@ Bundle-Version: 1.0.0
 Build-Jdk: 1.6.0_26
 Bnd-LastModified: 1313735536031
 Bundle-ManifestVersion: 2
-Import-Package: com.gfactor.pageinfo.jpa,com.gfactor.pageinfo.service,
- org.osgi.framework,org.springframework.beans.factory.annotation,org.s
- pringframework.osgi.context
+Import-Package: com.gfactor.pageinfo.jpa,
+ com.gfactor.pageinfo.service,
+ org.osgi.framework,
+ org.slf4j,
+ org.springframework.beans.factory.annotation,
+ org.springframework.osgi.context
 Bundle-SymbolicName: plugin-webdomain-locate
 

@@ -10,13 +10,17 @@ import org.apache.wicket.markup.WicketTag;
 import org.apache.wicket.markup.parser.filter.WicketTagIdentifier;
 import org.apache.wicket.markup.resolver.IComponentResolver;
 import org.osgi.framework.BundleContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.gfactor.export.classes.Extension;
-import com.gfactor.export.iface.IWicketExtensionService;
+import com.gfactor.osgi.api.export.classes.Extension;
+import com.gfactor.osgi.api.export.iface.IWicketExtensionService;
+import com.gfactor.osgi.api.export.util.BundleContextInfoUtil;
 
 
 
 public class OsgiExtensionPointResolver implements IComponentResolver {
+    private static final Logger logger = LoggerFactory.getLogger(BundleContextInfoUtil.class);
 
 	private static final long serialVersionUID = 1L;
 	private BundleContext bundleCtx;
@@ -27,7 +31,7 @@ public class OsgiExtensionPointResolver implements IComponentResolver {
 	}
 	
 	public OsgiExtensionPointResolver(BundleContext btx){
-		System.out.println("constructor for OsgiExtensionPointResolver");
+		logger.debug("constructor for OsgiExtensionPointResolver");
 		this.bundleCtx = btx;
 	}
 	/**
@@ -41,7 +45,7 @@ public class OsgiExtensionPointResolver implements IComponentResolver {
 		
 		if (tag instanceof WicketTag) {
 			WicketTag wtag = (WicketTag) tag;
-			System.out.println("wtag.getName() ="+wtag.getName());
+			logger.debug("wtag.getName() ="+wtag.getName());
 			
 			if (TAG_NAME.equalsIgnoreCase(wtag.getName())) {
 				String extensionPointId = wtag.getAttributes().getString("id");
@@ -49,29 +53,29 @@ public class OsgiExtensionPointResolver implements IComponentResolver {
 					throw new MarkupException(
 							"Wrong format of <wicket:extension-point id='xxx'>: attribute 'id' is missing");
 				}
-				System.out.println("extensionPointId = "+ extensionPointId);
+				logger.debug("extensionPointId = "+ extensionPointId);
 								
 				IWicketExtensionService s = (IWicketExtensionService)this.bundleCtx.getService(this.bundleCtx.getServiceReference(IWicketExtensionService.class.getName()));
-				System.out.println("IWicketExtensionService s = "+ s);
+				logger.debug("IWicketExtensionService s = "+ s);
 				
 				//extensions contain all extension-point id by class name,
 				//such as extensions =[class com.osgiweb.apps2.OSGiWebApp2.HomePages.SimpleMenuContribution] 
 				Collection<Class<? extends Extension>> extensions = s.findExtensions(extensionPointId);
-				System.out.println("extensions ="+extensions);
+				logger.debug("extensions ="+extensions);
 				
 				if (extensions != null && !extensions.isEmpty()) {
 					for (Class<? extends Extension> ext : extensions) {
 						try {
 							final String compId = "_extension_" + extensionPointId + "_"
 									+ container.getPage().getAutoIndex();
-							System.out.println("compId ="+compId);
+							logger.debug("compId ="+compId);
 							
 							Extension comp = ext.getConstructor(String.class).newInstance(compId);
-							System.out.println("comp ="+comp);
+							logger.debug("comp ="+comp);
 							
 							
 							comp.setRenderBodyOnly(container.getApplication().getMarkupSettings().getStripWicketTags());
-							System.out.println("container ->"+container.getApplication().getMarkupSettings().getStripWicketTags());
+							logger.debug("container ->"+container.getApplication().getMarkupSettings().getStripWicketTags());
 							
 							container.autoAdd(comp, markupStream);
 							markupStream.setCurrentIndex(markupStream.getCurrentIndex() - 1);

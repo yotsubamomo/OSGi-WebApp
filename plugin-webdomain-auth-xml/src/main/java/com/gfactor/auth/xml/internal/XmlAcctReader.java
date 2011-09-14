@@ -8,13 +8,17 @@ import java.util.List;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 
-import com.gfactor.export.classes.UserInfoObject;
+import com.gfactor.osgi.api.export.obj.UserInfoObject;
 
 public class XmlAcctReader {
 	private ContextResourceLoader ctxRsLoader;
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());	
+
 	public void setCtxRsLoader(ContextResourceLoader ctxRsLoader) throws IOException {
 		this.ctxRsLoader = ctxRsLoader;		
 	}
@@ -31,7 +35,9 @@ public class XmlAcctReader {
 			docJDOM = bSAX.build(xmlFile);
 			Element elmtRoot = docJDOM.getRootElement();
 			List<Element> allChildren = elmtRoot.getChildren();			
-			System.out.println("allChildren size = " +allChildren.size());
+			
+			logger.info("allChildren size = " +allChildren.size());
+			
 			for (int i = 0; i < allChildren.size(); i++) {
 //				List<Element> children = allChildren.get(i).getChildren();
 //				System.out.println(children.get(0).getText());
@@ -41,7 +47,7 @@ public class XmlAcctReader {
 					for (int j = 0; j < role.size(); j++) {
 						if(role.get(j).getText() != null && role.get(j).getText().length() >0){
 							grant.add(new GrantedAuthorityImpl(role.get(j).getText()));
-						}						
+						}
 					}
 					final String passwd = allChildren.get(i).getChild("Password").getText();
 					final boolean enabled = getBooleanValue(allChildren.get(i).getChild("Enable").getText());
@@ -59,7 +65,7 @@ public class XmlAcctReader {
 				
 				
 			}
-			System.out.println(userDetail);
+			logger.info(userDetail.toString());
 		}catch (Exception e) {
 			e.printStackTrace();
 		}

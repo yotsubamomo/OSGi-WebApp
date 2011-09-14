@@ -9,6 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.orm.jpa.support.JpaDaoSupport;
 
 import com.gfactor.pageinfo.dao.RegWicketPageBndDao;
@@ -20,7 +22,8 @@ import com.gfactor.pageinfo.jpa.Bndpageinfo;
  *
  */
 public class RegWicketPageBndDaoImpl extends JpaDaoSupport implements RegWicketPageBndDao {
-	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());	
+
 //	@PersistenceUnit
 //	private EntityManagerFactory entityManagerFactory;
 	
@@ -51,7 +54,7 @@ public class RegWicketPageBndDaoImpl extends JpaDaoSupport implements RegWicketP
 	
 
 	public void saveBndPageInfo(Bndpageinfo bndpageinfo) {
-		System.out.println("save user " + bndpageinfo); 
+		logger.info("save user " + bndpageinfo); 
 		getJpaTemplate().persist(bndpageinfo);
 	}
 
@@ -63,9 +66,12 @@ public class RegWicketPageBndDaoImpl extends JpaDaoSupport implements RegWicketP
 
 
 	public void delete(Bndpageinfo bndpageinfo) {
-		System.out.println("delete on dao , obj = " + bndpageinfo);
+		logger.info("delete on dao , obj = " + bndpageinfo);
+		
 		Bndpageinfo bndObj = getJpaTemplate().merge(bndpageinfo);
-		System.out.println("delete on dao , merg obj = " + bndObj);
+		
+		logger.info("delete on dao , merg obj = " + bndObj);
+		
 		getJpaTemplate().remove(bndObj);
 
 	}
@@ -73,19 +79,20 @@ public class RegWicketPageBndDaoImpl extends JpaDaoSupport implements RegWicketP
 	@Override
 	public Bndpageinfo getBndPageInfo(String bndName, String bndVer,
 			String entry_point) {
-		System.out.println("getBndPageInfo query value = " +bndName+","+bndVer+","+entry_point);
+		logger.info("getBndPageInfo query value = " +bndName+","+bndVer+","+entry_point);
 		Bndpageinfo bndRst = null;
+		
 		try{
-			Query query = getJpaTemplate().getEntityManagerFactory().createEntityManager().createNamedQuery("QueryByName_Ver_Entrypoint");
+			Query query = this.em.createNamedQuery("QueryByName_Ver_Entrypoint");
 			query.setParameter("bndName", bndName);
 			query.setParameter("bndVer", bndVer); 
 			query.setParameter("bndEntryPoint", entry_point);
 			bndRst = (Bndpageinfo) query.getSingleResult();
 		}catch (Exception e) {
-			System.out.println("dao getBndPageInfo exception = " +e);
+			logger.error("dao getBndPageInfo exception = " +e);
 		}
 		
-		System.out.println("bndRst ============> "+ bndRst);
+		logger.info("bndRst ============> "+ bndRst);
 		return bndRst;
 	}
 
@@ -93,6 +100,39 @@ public class RegWicketPageBndDaoImpl extends JpaDaoSupport implements RegWicketP
 	public Bndpageinfo findByEntry(Bndpageinfo bndpageinfo) {
 		
 		return getJpaTemplate().find(Bndpageinfo.class, bndpageinfo.getId());
+	}
+
+
+	@Override
+	public void deleteExpiredBndPageInfo(Bndpageinfo bndpageinfo) {
+		logger.info("deleteExpiredBndPageInfo start.....");
+		try{
+//			Query query = getJpaTemplate()
+//					.getEntityManagerFactory()
+//					.createEntityManager()
+//					.createQuery(
+			Query query = this.em.createQuery(
+							"delete from Bndpageinfo o " +
+							"where o.bundle_name = :bndName " +
+							"and o.bundle_version = :bndVersion " +
+							"and o.entry_point = :entryPoint " +
+							"and o.id NOT in (:bndId) ");
+			logger.info("em = "+ this.em);
+//			Query query = em.createQuery("delete from Organization o "+ "where o.name like :name);
+			query.setParameter("bndName", bndpageinfo.getBundle_name());
+			query.setParameter("bndVersion", bndpageinfo.getBundle_version()); 
+			query.setParameter("entryPoint", bndpageinfo.getEntry_point());
+			query.setParameter("bndId", bndpageinfo.getId());
+			
+			int deleted = query.executeUpdate();
+			logger.info("deleteExpiredBndPageInfo count = " + deleted);
+			
+		}catch (Exception e) {
+			logger.error("dao getBndPageInfo exception = " +e);
+			
+		}
+		
+		
 	}
 
 

@@ -1,23 +1,22 @@
 package com.gfactor.auth.xml;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.gfactor.auth.xml.internal.XmlAcctReader;
-import com.gfactor.export.classes.UserInfoObject;
-import com.gfactor.export.iface.AbstractUserDetailService;
-
-/**
- * 
- */
+import com.gfactor.osgi.api.export.iface.AbstractUserDetailService;
+import com.gfactor.osgi.api.export.obj.UserInfoObject;
 
 /**
  * @author momo
  *
  */
 public class XmlUserDetailService implements AbstractUserDetailService {
-	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());	
+
 	private XmlAcctReader xmlReader;
 	
 	
@@ -30,10 +29,10 @@ public class XmlUserDetailService implements AbstractUserDetailService {
 			throws UsernameNotFoundException, DataAccessException {
 		
 		UserInfoObject userDetil = xmlReader.getUserDetailFromXML(username);
-		System.out.println("isAccountNonLocked = "+userDetil.isAccountNonLocked());
-		System.out.println("isAccountNonExpired = "+userDetil.isAccountNonExpired());
-		System.out.println("isCredentialsNonExpired = "+userDetil.isCredentialsNonExpired());
-		System.out.println("isEnabled = "+userDetil.isEnabled());
+		logger.info("isAccountNonLocked = "+userDetil.isAccountNonLocked());
+		logger.info("isAccountNonExpired = "+userDetil.isAccountNonExpired());
+		logger.info("isCredentialsNonExpired = "+userDetil.isCredentialsNonExpired());
+		logger.info("isEnabled = "+userDetil.isEnabled());
 		 
 		return userDetil;
 	}

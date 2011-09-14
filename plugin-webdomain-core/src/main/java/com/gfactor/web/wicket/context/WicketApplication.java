@@ -9,6 +9,8 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.odlabs.wiquery.core.commons.IWiQuerySettings;
 import org.odlabs.wiquery.core.commons.WiQuerySettings;
 import org.osgi.framework.BundleContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -16,8 +18,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.osgi.context.BundleContextAware;
 import org.springframework.stereotype.Component;
 
-import com.gfactor.export.iface.IWicketExtensionService;
-import com.gfactor.export.iface.IWicketPageService;
+import com.gfactor.osgi.api.export.iface.IWicketExtensionService;
+import com.gfactor.osgi.api.export.iface.IWicketPageService;
+import com.gfactor.osgi.api.export.util.BundleContextInfoUtil;
 import com.gfactor.web.wicket.loader.OsgiExtensionPointResolver;
 import com.gfactor.web.wicket.loader.OsgiResourceStreamLocator;
 import com.gfactor.web.wicket.osgie.OsgiComponentInjector;
@@ -28,7 +31,8 @@ import com.gfactor.web.wicket.service.WicketPageServiceImpl;
 @Component
 public class WicketApplication extends AuthenticatedWebApplication  implements IWiQuerySettings,ApplicationContextAware,BundleContextAware {
 	private static final String DEFAULT_ENCODING = "UTF-8";
-	
+    private static final Logger logger = LoggerFactory.getLogger(BundleContextInfoUtil.class);
+
 	@Autowired
     private ApplicationContext applicationContext;
 	private BundleContext bundleCtx;
@@ -44,8 +48,8 @@ public class WicketApplication extends AuthenticatedWebApplication  implements I
 		return LoginPage.class;
     }
 	protected void init() {
-		   System.out.println("WicketApplication init........");
-		   System.out.println("osgiClassResolver = "+ osgiClassResolver);
+		   logger.info("WicketApplication init........");
+		   logger.info("osgiClassResolver = "+ osgiClassResolver);
 		   this.getApplicationSettings().setClassResolver(osgiClassResolver);
 		   this.getResourceSettings().setResourceStreamLocator(new OsgiResourceStreamLocator());
 		   this.getPageSettings().addComponentResolver(new OsgiExtensionPointResolver(this.bundleCtx));
@@ -61,10 +65,10 @@ public class WicketApplication extends AuthenticatedWebApplication  implements I
 	
 	
 	public void registerPageService(WebApplication app){
-		System.out.println("register pageService");
-		System.out.println("class = "+ IWicketPageService.class.getName());
+		logger.info("register pageService");
+		logger.info("class = "+ IWicketPageService.class.getName());
 		this.bundleCtx.registerService(IWicketPageService.class.getName(), new WicketPageServiceImpl(this), null);
-		System.out.println("register pageService finished");
+		logger.info("register pageService finished");
 		
 		this.bundleCtx.registerService(IWicketExtensionService.class.getName(),new WicketExtensionServiceImpl(), null);
 	}
@@ -111,8 +115,7 @@ public class WicketApplication extends AuthenticatedWebApplication  implements I
 	
 	@Override
 	public void setBundleContext(BundleContext bundleContext) {
-		this.bundleCtx = bundleContext;
-		System.out.println("bundle ctx = "+bundleCtx );
+		this.bundleCtx = bundleContext;		
 	}
 
 	

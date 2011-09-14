@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Export-Package: com.gfactor.auth.xml;version="1.0.0";
   uses:="com.gfactor.auth.xml.internal,
-   com.gfactor.export.iface,
+   com.gfactor.osgi.api.export.iface,
    org.springframework.dao,
    org.springframework.security.core.userdetails"
 Unversioned-Imports: *
@@ -13,10 +13,11 @@ Bundle-Version: 1.0.0
 Build-Jdk: 1.6.0_26
 Bnd-LastModified: 1312871722031
 Bundle-ManifestVersion: 2
-Import-Package: com.gfactor.export.classes,
- com.gfactor.export.iface,
+Import-Package: com.gfactor.osgi.api.export.iface,
+ com.gfactor.osgi.api.export.obj,
  org.jdom,
  org.jdom.input,
+ org.slf4j,
  org.springframework.beans,
  org.springframework.context,
  org.springframework.core.io,

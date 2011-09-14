@@ -28,7 +28,11 @@ import org.apache.wicket.application.IClassResolver;
 import org.apache.wicket.util.string.Strings;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.osgi.context.BundleContextAware;
+
+import com.gfactor.osgi.api.export.util.BundleContextInfoUtil;
 
 /** 
  * @author mkalina
@@ -38,7 +42,8 @@ public class OsgiClassResolver implements IClassResolver,BundleContextAware {
 
 	private DefaultClassResolver wrappedClassResolver;
 	private BundleContext bundleCtx;
-	
+    private static final Logger logger = LoggerFactory.getLogger(BundleContextInfoUtil.class);
+
 	public OsgiClassResolver() {
 		this.wrappedClassResolver = new DefaultClassResolver();
 	}
@@ -49,7 +54,7 @@ public class OsgiClassResolver implements IClassResolver,BundleContextAware {
 	 * @see org.apache.wicket.application.IClassResolver#getResources(java.lang.String)
 	 */
 	public Iterator<URL> getResources(String name) {
-		System.out.println("to get Resources = "+ name);
+		logger.debug("to get Resources = "+ name);
 		return this.wrappedClassResolver.getResources(name);
 	}
 
@@ -60,29 +65,29 @@ public class OsgiClassResolver implements IClassResolver,BundleContextAware {
 	 */ 
 	public Class<?> resolveClass(String classname)
 			throws ClassNotFoundException {
-		System.out.println("resolveClass = " + classname);
+		logger.debug("resolveClass = " + classname);
 		Class<?> clazz = null;
 
 		try {
 			ClassLoader loader = Application.get().getClass().getClassLoader();
-			System.out.println("clazz2 loader = "+ loader);
+			logger.debug("clazz2 loader = "+ loader);
 			Class<?> clazz2 = Class.forName(classname, false, loader);
-			System.out.println("clazz2 = "+ clazz2);
-			System.out.println();
+			logger.debug("clazz2 = "+ clazz2);
+			logger.debug("");
 			clazz = this.wrappedClassResolver.resolveClass(classname);
-			System.out.println("clazz = "+ clazz);
+			logger.debug("clazz = "+ clazz);
 		} catch (ClassNotFoundException e) {
 
 			// not found in parent classloader? look through the bundles...
-			System.out.println("resolveClass for bundles");
-			System.out.println("bundle context = "+ bundleCtx);
+			logger.debug("resolveClass for bundles");
+			logger.debug("bundle context = "+ bundleCtx);
 				
 			Bundle[] bundles = bundleCtx.getBundles();
-			System.out.println("bundles = "+bundles);
+			logger.debug("bundles = "+bundles);
 			if (bundles != null && bundles.length > 0) {
-				System.out.println("bundles[] length = "+bundles.length);
+				logger.debug("bundles[] length = "+bundles.length);
 				for (Bundle bundle : bundles) {
-//					System.out.println("   -> bundle id= = "+ bundle.getBundleId());
+//					logger.debug("   -> bundle id= = "+ bundle.getBundleId());
 					if (bundle.getState() != Bundle.ACTIVE
 							|| !this.classIsExportedByBundle(classname, bundle))
 						continue;

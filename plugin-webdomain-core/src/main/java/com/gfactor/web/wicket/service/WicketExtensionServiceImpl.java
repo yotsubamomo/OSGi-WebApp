@@ -6,8 +6,8 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.gfactor.export.classes.Extension;
-import com.gfactor.export.iface.IWicketExtensionService;
+import com.gfactor.osgi.api.export.classes.Extension;
+import com.gfactor.osgi.api.export.iface.IWicketExtensionService;
 
 
 

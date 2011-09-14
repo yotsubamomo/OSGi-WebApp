@@ -3,7 +3,7 @@
  */
 package com.gfactor.page.main.internal;
 
-import com.gfactor.export.iface.IGetMainPageClassService;
+import com.gfactor.osgi.api.export.iface.IGetMainPageClassService;
 import com.gfactor.page.main.HomePage;
 
 /**

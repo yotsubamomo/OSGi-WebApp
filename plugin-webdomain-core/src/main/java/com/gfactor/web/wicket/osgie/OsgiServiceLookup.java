@@ -9,8 +9,13 @@ import org.osgi.framework.Filter;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.util.tracker.ServiceTracker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.gfactor.osgi.api.export.util.BundleContextInfoUtil;
 
 public class OsgiServiceLookup {
+    private static final Logger logger = LoggerFactory.getLogger(BundleContextInfoUtil.class);
 
     public static final long DEFAULT_TIMEOUT = 10000;
 
@@ -36,11 +41,13 @@ public class OsgiServiceLookup {
 
     @SuppressWarnings("unchecked")
     public static <T> T getOsgiService(BundleContext bc, String className, long timeout, Map<String, String> props) {
-    	System.out.println("getosgiservice...");
-    	System.out.println("BundleContext = " + bc);
-    	System.out.println("className = " + className);
-    	System.out.println("props = " + props);
+    	logger.debug("getosgiservice...");
+    	logger.debug("BundleContext = " + bc);
+    	logger.debug("className = " + className);
+    	logger.debug("props = " + props);
+    	
         ServiceTracker tracker = createServiceTracker(bc, className, props);
+        
         try {
             tracker.open();
             Object svc = tracker.waitForService(timeout);
@@ -51,6 +58,7 @@ public class OsgiServiceLookup {
         }
         catch (InterruptedException exc) {
             throw new WicketRuntimeException(exc);
+            
         }
         finally {
             tracker.close();
@@ -81,6 +89,7 @@ public class OsgiServiceLookup {
             return tracker;
         }
         catch (InvalidSyntaxException exc) {
+        	logger.error("getOsgiService fail .. " + exc);
            throw new WicketRuntimeException(exc);
         }
     }

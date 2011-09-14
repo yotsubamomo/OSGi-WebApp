@@ -8,6 +8,8 @@ import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,8 +17,11 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.gfactor.osgi.api.export.util.BundleContextInfoUtil;
+
 public class WebAuthenticatedWebSession extends AuthenticatedWebSession{
-	
+    private static final Logger logger = LoggerFactory.getLogger(BundleContextInfoUtil.class);
+
 	//jaasAuthenticationProvider
 	@Inject
     private AuthenticationManager authenticationManager;
@@ -47,25 +52,25 @@ public class WebAuthenticatedWebSession extends AuthenticatedWebSession{
 	@Override
     public boolean authenticate(String username, String password) {
         boolean authenticated = false;
-        System.out.println("start authenticate");
-        System.out.println("username="+username);
+        logger.info("start authenticate");
+        logger.info("username="+username);
         
         try {
-        	System.out.println("authenticationManager = "+authenticationManager);
+        	logger.info("authenticationManager = "+authenticationManager);
         	
         	UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(username, password);
-            System.out.println("authenticationManager instanceof = "+(authenticationManager instanceof org.springframework.security.authentication.AuthenticationManager));
+        	logger.info("authenticationManager instanceof = "+(authenticationManager instanceof org.springframework.security.authentication.AuthenticationManager));
             
             
             Authentication authentication = authenticationManager.authenticate(auth);
-            System.out.println("authentication = "+ authentication);
+            logger.info("authentication = "+ authentication);
             
             SecurityContextHolder.getContext().setAuthentication(authentication);
             authenticated = authentication.isAuthenticated();
-            System.out.println("authenticated = "+ authenticated);
+            logger.info("authenticated = "+ authenticated);
         } catch (AuthenticationException e) {
         	e.printStackTrace();
-        	System.out.println("Exception for auth - "+e);
+        	logger.error("Exception for auth - "+e);
             authenticated = false;
         }
         return authenticated;

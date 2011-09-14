@@ -30,7 +30,7 @@
 		<!-- dependency on project group start -->
 		<dependency>
 			<groupId>momo-plugin-web</groupId>
-			<artifactId>plugin-webexport-iface</artifactId>
+			<artifactId>plugin-webdomain-api</artifactId>
 			<version>1.0.0</version>
 			<scope>compile</scope>
 		</dependency>
@@ -156,11 +156,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.junit</groupId>
-			<artifactId>com.springsource.org.junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>com.springsource.org.apache.commons.dbcp</artifactId>
 			<scope>test</scope>
@@ -192,7 +187,7 @@
 		<!-- Other dependency End -->
 		<dependency>
 			<groupId>momo-plugin-web</groupId>
-			<artifactId>plugin-webexport-iface</artifactId>
+			<artifactId>plugin-webdomain-api</artifactId>
 			<version>1.0.0</version>
 			<type>jar</type>
 			<scope>compile</scope>

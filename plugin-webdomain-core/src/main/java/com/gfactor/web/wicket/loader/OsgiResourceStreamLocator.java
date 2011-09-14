@@ -1,18 +1,20 @@
-
 package com.gfactor.web.wicket.loader;
 
 import org.apache.wicket.util.file.IResourceFinder;
 import org.apache.wicket.util.resource.IResourceStream;
 import org.apache.wicket.util.resource.locator.ResourceStreamLocator;
- 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class OsgiResourceStreamLocator extends ResourceStreamLocator
-{
+import com.gfactor.osgi.api.export.util.BundleContextInfoUtil;
+
+public class OsgiResourceStreamLocator extends ResourceStreamLocator {
+    private static final Logger logger = LoggerFactory.getLogger(BundleContextInfoUtil.class);
+
 	/**
 	 * Construct.
 	 */
-	public OsgiResourceStreamLocator()
-	{
+	public OsgiResourceStreamLocator() {
 	}
 
 	/**
@@ -20,8 +22,7 @@ public class OsgiResourceStreamLocator extends ResourceStreamLocator
 	 * 
 	 * @param finder
 	 */
-	public OsgiResourceStreamLocator(final IResourceFinder finder)
-	{
+	public OsgiResourceStreamLocator(final IResourceFinder finder) {
 		super(finder);
 	}
 
@@ -31,9 +32,8 @@ public class OsgiResourceStreamLocator extends ResourceStreamLocator
 	 *      java.lang.String)
 	 */
 	@Override
-	public IResourceStream locate(final Class<?> clazz, final String path)
-	{
-		System.out.println("IResourceStream = "+clazz+", path-"+path);
+	public IResourceStream locate(final Class<?> clazz, final String path) {
+		logger.info("IResourceStream = " + clazz + ", path-" + path);
 		return super.locate(clazz, "/" + path);
 	}
 }

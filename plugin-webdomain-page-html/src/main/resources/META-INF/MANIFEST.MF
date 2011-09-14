@@ -1,6 +1,7 @@
 Manifest-Version: 1.0
-Export-Package: com.gfactor.page.html;version="1.0.0";uses:="com.gfactor.pageinfo.service,org.osgi.framework,org.springframework.osgi.context",
- com.gfactor.page.html.internal;version="1.0.0";uses:="org.apache.wicket.markup.html"
+Export-Package: com.gfactor.page.html;version="1.0.0";uses:="org.osgi.framework,org.springframework.osgi.context",
+ com.gfactor.page.html.internal.page;version="1.0.0";uses:="org.apache.wicket.markup.html",
+ com.gfactor.page.html.internal.reg;version="1.0.0";uses:="com.gfactor.tracker.iface,org.osgi.framework,org.springframework.osgi.context"
 Unversioned-Imports: *
 Built-By: momo
 Tool: Bnd-1.43.0
@@ -12,12 +13,12 @@ Build-Jdk: 1.6.0_26
 Bnd-LastModified: 1313999400984
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: plugin-webdomain-page-html
-Import-Package: com.gfactor.pageinfo.jpa,
- com.gfactor.pageinfo.service,
+Import-Package: com.gfactor.osgi.api.export.util,
+ com.gfactor.tracker.iface,
  org.apache.wicket,
  org.apache.wicket.markup.html,
  org.apache.wicket.markup.html.image,
- org.apache.wicket.resource,
  org.osgi.framework,
+ org.slf4j,
  org.springframework.osgi.context
 

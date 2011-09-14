@@ -22,5 +22,6 @@ Import-Package: com.gfactor.pageinfo.dao,
  net.sf.cglib.core,
  net.sf.cglib.reflect,
  org.aspectj.lang,
- org.aspectj.runtime.reflect
+ org.aspectj.runtime.reflect,
+ org.slf4j
 

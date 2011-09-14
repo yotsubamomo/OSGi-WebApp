@@ -26,7 +26,7 @@ public class OsgiServiceProxyTargetLocator implements IProxyTargetLocator {
     	
         WebApplication application = (WebApplication) Application.get();
         BundleContext contexts = (BundleContext) application.getServletContext().getAttribute("osgi-bundlecontext");
-        System.out.println("locateProxyTarget contexts = "+ contexts);
+//        System.out.println("locateProxyTarget contexts = "+ contexts);
 //    	System.out.println("locateProxyTarget.... , context ="+ this.context);
         return OsgiServiceLookup.getOsgiService(contexts, className);
     }

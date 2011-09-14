@@ -5,10 +5,13 @@ import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.target.coding.IRequestTargetUrlCodingStrategy;
 import org.apache.wicket.util.lang.PackageName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 
-import com.gfactor.export.iface.IWicketPageService;
+import com.gfactor.osgi.api.export.iface.IWicketPageService;
+import com.gfactor.osgi.api.export.util.BundleContextInfoUtil;
 
 /**
  * Default implementation of the {@link IWicketPageService} interface.
@@ -17,6 +20,7 @@ import com.gfactor.export.iface.IWicketPageService;
  * 
  */
 public class WicketPageServiceImpl implements IWicketPageService {
+    private static final Logger logger = LoggerFactory.getLogger(BundleContextInfoUtil.class);
 
 	private WebApplication application;
 
@@ -61,7 +65,7 @@ public class WicketPageServiceImpl implements IWicketPageService {
 	 */
 	public <T extends Page> void mountBookmarkablePage(String path,
 			Class<T> bookmarkablePageClass) {
-		System.out.println("mountBookmarkablePage 77");
+		logger.debug("mountBookmarkablePage 77");
 		this.application.mountBookmarkablePage(path, bookmarkablePageClass);
 
 	}
@@ -74,10 +78,10 @@ public class WicketPageServiceImpl implements IWicketPageService {
 	 */
 	public <T extends Page> void mountBookmarkablePage(String path,
 			String pageMapName, Class<T> bookmarkablePageClass) {
-		System.out.println("mountBookmarkablePage 90");
-		System.out.println("Path = "+path);
-		System.out.println("pageMapName = "+pageMapName);
-		System.out.println("bookmarkablePageClass = "+bookmarkablePageClass);
+		logger.debug("mountBookmarkablePage 90");
+		logger.debug("Path = "+path);
+		logger.debug("pageMapName = "+pageMapName);
+		logger.debug("bookmarkablePageClass = "+bookmarkablePageClass);
 		this.application.mountBookmarkablePage(path, pageMapName,
 				bookmarkablePageClass); 
 

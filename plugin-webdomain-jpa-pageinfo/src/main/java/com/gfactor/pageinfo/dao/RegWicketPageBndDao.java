@@ -13,4 +13,5 @@ public interface RegWicketPageBndDao {
 	public void saveBndPageInfo(Bndpageinfo bndpageinfo);
 	public Bndpageinfo update(Bndpageinfo bndpageinfo);
 	public void delete(Bndpageinfo bndpageinfo);
+	public void deleteExpiredBndPageInfo(Bndpageinfo bndpageinfo);
 }
